@@ -20,6 +20,12 @@ export class Employee extends Component {
         this.setState({emps: data});
       });
   }
+  //method for refresh list
+  componentDidUpdate() {
+    //Add condition not to repeat infinite refresh
+    this.refreshList();
+  }
+
   render() {
     let addModalClose = () => this.setState({addModalShow: false});
     return (
@@ -28,17 +34,18 @@ export class Employee extends Component {
           <thead>
             <tr>
               <th> EmployeeID </th> <th> EmployeeName </th> <th> Department </th>
-              <th> DateOfJoining </th> <th> PhotoFileName </th>
+              <th> DateOfJoining </th>
             </tr>
           </thead>
           <tbody>
-            {this.state.emps.map(emp => (
-              <tr key={emp.EmployeeID}>
-                <td> {emp.EmployeeID} </td> <td> {emp.EmployeeName} </td>
-                <td> {emp.Department} </td> <td> {emp.DateOfJoining} </td>
-                <td> {emp.PhotoFileName} </td>
-              </tr>
-            ))}
+            {this.state.emps
+              .sort((a, b) => a.EmployeeID - b.EmployeeID)
+              .map(emp => (
+                <tr key={emp.EmployeeID}>
+                  <td> {emp.EmployeeID} </td> <td> {emp.EmployeeName} </td>
+                  <td> {emp.Department} </td> <td> {emp.DateOfJoining} </td>
+                </tr>
+              ))}
           </tbody>
         </Table>
         <ButtonToolbar>

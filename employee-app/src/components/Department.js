@@ -21,6 +21,12 @@ export class Department extends Component {
       });
   }
 
+  //method for refresh list
+  componentDidUpdate(prevProps, prevState) {
+    //Add condition not to repeat infinite refresh
+    if (prevState.deps.length !== this.state.deps.length) this.refreshList();
+  }
+
   render() {
     let addModalClose = () => this.setState({addModalShow: false});
     return (
@@ -29,23 +35,24 @@ export class Department extends Component {
           <thead>
             <tr>
               <th> DepartmentID </th> <th> DepartmentName </th>
-            </tr>{' '}
-          </thead>{' '}
+            </tr>
+          </thead>
           <tbody>
-            {' '}
-            {this.state.deps.map(dep => (
-              <tr key={dep.DepartmentID}>
-                <td> {dep.DepartmentID} </td> <td> {dep.DepartmentName}</td>
-              </tr>
-            ))}{' '}
-          </tbody>{' '}
-        </Table>{' '}
+            {this.state.deps
+              .sort((a, b) => a.DepartmentID - b.DepartmentID)
+              .map(dep => (
+                <tr key={dep.DepartmentID}>
+                  <td> {dep.DepartmentID} </td> <td> {dep.DepartmentName}</td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
         <ButtonToolbar>
           <Button variant="primary" onClick={() => this.setState({addModalShow: true})}>
-            Add Department{' '}
-          </Button>{' '}
-          <AddDepartmentModal show={this.state.addModalShow} onHide={addModalClose} />{' '}
-        </ButtonToolbar>{' '}
+            Add Department
+          </Button>
+          <AddDepartmentModal show={this.state.addModalShow} onHide={addModalClose} />
+        </ButtonToolbar>
       </>
     );
   }

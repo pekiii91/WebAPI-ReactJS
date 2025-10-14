@@ -4,7 +4,7 @@ import {Modal, Button, Form, Col, Row} from 'react-bootstrap';
 export class AddEmployeeModal extends Component {
   handleSubmit(event) {
     event.preventDefault();
-    fetch('https://localhost:44379/api/employee', {
+    fetch('https://localhost:44370/api/employee', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -47,7 +47,7 @@ export class AddEmployeeModal extends Component {
                     />
                   </Form.Group>
 
-                  <Form.Group>
+                  <Form.Group className="mt-3">
                     <Button variant="primary" type="submit">
                       Add Employee
                     </Button>

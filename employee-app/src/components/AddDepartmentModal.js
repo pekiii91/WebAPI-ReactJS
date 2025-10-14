@@ -9,7 +9,7 @@ export class AddDepartmentModal extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    fetch('https://localhost:44379/api/department', {
+    fetch('https://localhost:44370/api/department', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -52,7 +52,7 @@ export class AddDepartmentModal extends Component {
                     />
                   </Form.Group>
 
-                  <Form.Group>
+                  <Form.Group className="mt-3">
                     <Button variant="primary" type="submit">
                       Add Department
                     </Button>
