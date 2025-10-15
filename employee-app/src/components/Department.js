@@ -10,10 +10,6 @@ export class Department extends Component {
     this.state = {deps: [], addModalShow: false, editModalShow: false};
   }
 
-  componentDidMount() {
-    this.refreshList();
-  }
-
   refreshList() {
     fetch('https://localhost:44370/api/department')
       .then(response => response.json())
@@ -25,6 +21,23 @@ export class Department extends Component {
   //method for refresh list
   componentDidMount() {
     this.refreshList();
+  }
+
+  componentDidDelete() {
+    this.refreshList();
+  }
+
+  //function delete method
+  deleteDepartment(depid) {
+    if (window.confirm('Are you sure?')) {
+      fetch('https://localhost:44370/api/department/' + depid, {
+        method: 'DELETE',
+        header: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+    }
   }
 
   render() {
@@ -47,8 +60,8 @@ export class Department extends Component {
               .map(dep => (
                 <tr key={dep.DepartmentID}>
                   <td> {dep.DepartmentID} </td> <td> {dep.DepartmentName}</td>
-                  <td>
-                    <ButtonToolbar>
+                  <td style={{textAlign: 'center'}}>
+                    <div style={{display: 'flex', justifyContent: 'center', gap: '10px'}}>
                       <Button
                         className="mr-2"
                         variant="info"
@@ -61,13 +74,21 @@ export class Department extends Component {
                         }>
                         Edit
                       </Button>
+
+                      <Button
+                        className="mr-2"
+                        variant="danger"
+                        onClick={() => this.deleteDepartment(dep.DepartmentID)}>
+                        Delete
+                      </Button>
+
                       <EditDepartmentModal
                         show={this.state.editModalShow}
                         onHide={editModalClose}
                         depid={depid}
                         depname={depname}
                       />
-                    </ButtonToolbar>
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -23,6 +23,19 @@ export class Employee extends Component {
     this.refreshList();
   }
 
+  //function delete method
+  deleteEmployee(empid) {
+    if (window.confirm('Are you sure?')) {
+      fetch('https://localhost:44370/api/employee/' + empid, {
+        method: 'DELETE',
+        header: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+    }
+  }
+
   render() {
     let addModalClose = () => this.setState({addModalShow: false});
     let editModalClose = () => this.setState({editModalShow: false});
@@ -42,8 +55,8 @@ export class Employee extends Component {
                 <tr key={emp.EmployeeID}>
                   <td> {emp.EmployeeID} </td> <td> {emp.EmployeeName} </td>
                   <td> {emp.Department} </td> <td> {emp.DateOfJoining} </td>
-                  <td>
-                    <ButtonToolbar>
+                  <td style={{textAlign: 'center'}}>
+                    <div style={{display: 'flex', justifyContent: 'center', gap: '10px'}}>
                       <Button
                         className="mr-2"
                         variant="info"
@@ -58,6 +71,14 @@ export class Employee extends Component {
                         }>
                         Edit
                       </Button>
+
+                      <Button
+                        className="mr-2"
+                        variant="danger"
+                        onClick={() => this.deleteEmployee(emp.EmployeeID)}>
+                        Delete
+                      </Button>
+
                       <EditEmployeeModal
                         show={this.state.editModalShow}
                         onHide={editModalClose}
@@ -66,7 +87,7 @@ export class Employee extends Component {
                         dep={this.state.dep}
                         doj={this.state.doj}
                       />
-                    </ButtonToolbar>
+                    </div>
                   </td>
                 </tr>
               ))}
