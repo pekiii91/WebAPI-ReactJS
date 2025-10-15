@@ -26,7 +26,8 @@ export class AddEmployeeModal extends Component {
       body: JSON.stringify({
         EmployeeName: event.target.EmployeeName.value,
         Department: event.target.Department.value,
-        DateOfJoining: event.target.DateOfJoining.value
+        EmailID: event.target.EmailID.value,
+        DateOfJoin: event.target.DateOfJoin.value
       })
     })
       .then(res => res.json())
@@ -82,9 +83,14 @@ export class AddEmployeeModal extends Component {
                     <Form.Control type="text" name="Department" required placeholder="Department" />
                   </Form.Group>
 
-                  <Form.Group controlId="DateOfJoining" className="mt-3">
-                    <Form.Label>DateOfJoining</Form.Label>
-                    <Form.Control type="date" name="DateOfJoining" required />
+                  <Form.Group controlId="EmailID" className="mt-3">
+                    <Form.Label>EmailID</Form.Label>
+                    <Form.Control type="email" name="EmailID" required placeholder="EmailID" />
+                  </Form.Group>
+
+                  <Form.Group controlId="DateOfJoin" className="mt-3">
+                    <Form.Label>DateOfJoin</Form.Label>
+                    <Form.Control type="date" name="DateOfJoin" required />
                   </Form.Group>
 
                   <Form.Group className="mt-3">

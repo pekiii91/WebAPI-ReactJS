@@ -10,6 +10,12 @@ export class Employee extends Component {
     this.state = {emps: [], addModalShow: false, editModalShow: false};
   }
 
+  //method for refresh list
+  componentDidMount() {
+    //Add condition not to repeat infinite refresh
+    this.refreshList();
+  }
+
   refreshList() {
     fetch('https://localhost:44370/api/employee')
       .then(response => response.json())
@@ -17,9 +23,8 @@ export class Employee extends Component {
         this.setState({emps: data});
       });
   }
-  //method for refresh list
-  componentDidMount() {
-    //Add condition not to repeat infinite refresh
+
+  componentDidUpdate() {
     this.refreshList();
   }
 
@@ -37,6 +42,7 @@ export class Employee extends Component {
   }
 
   render() {
+    const {empid, empname} = this.state;
     let addModalClose = () => this.setState({addModalShow: false});
     let editModalClose = () => this.setState({editModalShow: false});
     return (
@@ -44,8 +50,12 @@ export class Employee extends Component {
         <Table className="mt-4" striped bordered hover size="sm">
           <thead>
             <tr>
-              <th> EmployeeID </th> <th> EmployeeName </th> <th> Department </th>
-              <th> DateOfJoining </th> <th>Option</th>
+              <th> EmployeeID </th>
+              <th> EmployeeName </th>
+              <th> Department </th>
+              <th> EmailID </th>
+              <th> DateOfJoin </th>
+              <th>Option</th>
             </tr>
           </thead>
           <tbody>
@@ -53,8 +63,11 @@ export class Employee extends Component {
               .sort((a, b) => a.EmployeeID - b.EmployeeID)
               .map(emp => (
                 <tr key={emp.EmployeeID}>
-                  <td> {emp.EmployeeID} </td> <td> {emp.EmployeeName} </td>
-                  <td> {emp.Department} </td> <td> {emp.DateOfJoining} </td>
+                  <td> {emp.EmployeeID} </td>
+                  <td> {emp.EmployeeName} </td>
+                  <td> {emp.Department} </td>
+                  <td> {emp.EmailID} </td>
+                  <td> {emp.DateOfJoin} </td>
                   <td style={{textAlign: 'center'}}>
                     <div style={{display: 'flex', justifyContent: 'center', gap: '10px'}}>
                       <Button
@@ -64,9 +77,7 @@ export class Employee extends Component {
                           this.setState({
                             editModalShow: true,
                             empid: emp.EmployeeID,
-                            empname: emp.EmployeeName,
-                            dep: emp.Department,
-                            doj: emp.DateOfJoining
+                            empname: emp.EmployeeName
                           })
                         }>
                         Edit
@@ -82,10 +93,8 @@ export class Employee extends Component {
                       <EditEmployeeModal
                         show={this.state.editModalShow}
                         onHide={editModalClose}
-                        empid={this.state.empid}
-                        empname={this.state.empname}
-                        dep={this.state.dep}
-                        doj={this.state.doj}
+                        empid={empid}
+                        empname={empname}
                       />
                     </div>
                   </td>

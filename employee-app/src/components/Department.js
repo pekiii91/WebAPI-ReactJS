@@ -10,21 +10,17 @@ export class Department extends Component {
     this.state = {deps: [], addModalShow: false, editModalShow: false};
   }
 
+  //method for refresh list
+  componentDidMount() {
+    this.refreshList();
+  }
+
   refreshList() {
     fetch('https://localhost:44370/api/department')
       .then(response => response.json())
       .then(data => {
         this.setState({deps: data});
       });
-  }
-
-  //method for refresh list
-  componentDidMount() {
-    this.refreshList();
-  }
-
-  componentDidDelete() {
-    this.refreshList();
   }
 
   //function delete method

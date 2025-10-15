@@ -26,8 +26,9 @@ export class EditEmployeeModal extends Component {
       body: JSON.stringify({
         EmployeeID: event.target.EmployeeID.value,
         EmployeeName: event.target.EmployeeName.value,
+        EmailID: event.target.EmailID.value,
         Department: event.target.Department.value,
-        DateOfJoining: event.target.DateOfJoining.value
+        DateOfJoin: event.target.DateOfJoin.value
       })
     })
       .then(res => res.json())
@@ -95,14 +96,26 @@ export class EditEmployeeModal extends Component {
                       placeholder="Department"
                     />
                   </Form.Group>
-                  <Form.Group className="mt-3" controlId="DateOfJoining">
-                    <Form.Label>DateOfJoining</Form.Label>
+
+                  <Form.Group className="mt-3" controlId="EmailID">
+                    <Form.Label>EmailID</Form.Label>
+                    <Form.Control
+                      type="email"
+                      name="EmailID"
+                      required
+                      defaultValue={this.props.emailid}
+                      placeholder="EmailID"
+                    />
+                  </Form.Group>
+
+                  <Form.Group className="mt-3" controlId="DateOfJoin">
+                    <Form.Label>DateOfJoin</Form.Label>
                     <Form.Control
                       type="date"
-                      name="DateOfJoining"
+                      name="DateOfJoin"
                       required
                       defaultValue={this.props.doj}
-                      placeholder="DateOfJoining"
+                      placeholder="DateOfJoin"
                     />
                   </Form.Group>
                   <Form.Group className="mt-3">
