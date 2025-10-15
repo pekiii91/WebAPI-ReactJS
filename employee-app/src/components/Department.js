@@ -22,9 +22,8 @@ export class Department extends Component {
   }
 
   //method for refresh list
-  componentDidUpdate(prevProps, prevState) {
-    //Add condition not to repeat infinite refresh
-    if (prevState.deps.length !== this.state.deps.length) this.refreshList();
+  componentDidUpdate() {
+    this.refreshList();
   }
 
   render() {
