@@ -2,15 +2,12 @@ import React, {Component} from 'react';
 import {Table} from 'react-bootstrap';
 import {Button, ButtonToolbar} from 'react-bootstrap';
 import {AddEmployeeModal} from './AddEmployeeModal';
+import {EditEmployeeModal} from './EditEmployeeModal';
 
 export class Employee extends Component {
   constructor(props) {
     super(props);
-    this.state = {emps: [], addModalShow: false};
-  }
-
-  componentDidMount() {
-    this.refreshList();
+    this.state = {emps: [], addModalShow: false, editModalShow: false};
   }
 
   refreshList() {
@@ -21,20 +18,21 @@ export class Employee extends Component {
       });
   }
   //method for refresh list
-  componentDidUpdate() {
+  componentDidMount() {
     //Add condition not to repeat infinite refresh
     this.refreshList();
   }
 
   render() {
     let addModalClose = () => this.setState({addModalShow: false});
+    let editModalClose = () => this.setState({editModalShow: false});
     return (
       <>
         <Table className="mt-4" striped bordered hover size="sm">
           <thead>
             <tr>
               <th> EmployeeID </th> <th> EmployeeName </th> <th> Department </th>
-              <th> DateOfJoining </th>
+              <th> DateOfJoining </th> <th>Option</th>
             </tr>
           </thead>
           <tbody>
@@ -44,6 +42,32 @@ export class Employee extends Component {
                 <tr key={emp.EmployeeID}>
                   <td> {emp.EmployeeID} </td> <td> {emp.EmployeeName} </td>
                   <td> {emp.Department} </td> <td> {emp.DateOfJoining} </td>
+                  <td>
+                    <ButtonToolbar>
+                      <Button
+                        className="mr-2"
+                        variant="info"
+                        onClick={() =>
+                          this.setState({
+                            editModalShow: true,
+                            empid: emp.EmployeeID,
+                            empname: emp.EmployeeName,
+                            dep: emp.Department,
+                            doj: emp.DateOfJoining
+                          })
+                        }>
+                        Edit
+                      </Button>
+                      <EditEmployeeModal
+                        show={this.state.editModalShow}
+                        onHide={editModalClose}
+                        empid={this.state.empid}
+                        empname={this.state.empname}
+                        dep={this.state.dep}
+                        doj={this.state.doj}
+                      />
+                    </ButtonToolbar>
+                  </td>
                 </tr>
               ))}
           </tbody>

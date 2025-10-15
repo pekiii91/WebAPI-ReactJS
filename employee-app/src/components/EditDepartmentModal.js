@@ -3,7 +3,7 @@ import {Modal, Button, Row, Form, Col} from 'react-bootstrap';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 
-export class AddDepartmentModal extends Component {
+export class EditDepartmentModal extends Component {
   constructor(props) {
     super(props);
     this.state = {snackbaropen: false, snackbarmsg: ''};
@@ -18,12 +18,13 @@ export class AddDepartmentModal extends Component {
   handleSubmit(event) {
     event.preventDefault();
     fetch('https://localhost:44370/api/department', {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        DepartmentID: event.target.DepartmentID.value,
         DepartmentName: event.target.DepartmentName.value
       })
     })
@@ -33,11 +34,10 @@ export class AddDepartmentModal extends Component {
           this.setState({snackbaropen: true, snackbarmsg: result});
         },
         error => {
-          this.setState({snackbaropen: true, snackbarmsg: 'Failed in adding department'});
+          this.setState({snackbaropen: true, snackbarmsg: 'Failed in updating department'});
         }
       );
   }
-
   render() {
     return (
       <div className="container">
@@ -53,29 +53,40 @@ export class AddDepartmentModal extends Component {
             </IconButton>
           ]}
         />
-
         <Modal {...this.props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
           <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">Add Department</Modal.Title>
+            <Modal.Title id="contained-modal-title-vcenter">Edit Department </Modal.Title>
           </Modal.Header>
-
           <Modal.Body>
             <Row>
               <Col sm={6}>
                 <Form onSubmit={this.handleSubmit}>
-                  <Form.Group controlId="DepartmentName">
+                  <Form.Group controlId="DepartmentID">
+                    <Form.Label>DepartmentID</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="DepartmentID"
+                      required
+                      disabled
+                      defaultValue={this.props.depid}
+                      placeholder="DepartmentID"
+                    />
+                  </Form.Group>
+
+                  <Form.Group className="mt-3" controlId="DepartmentName">
                     <Form.Label>DepartmentName</Form.Label>
                     <Form.Control
                       type="text"
                       name="DepartmentName"
                       required
+                      defaultValue={this.props.depname}
                       placeholder="DepartmentName"
                     />
                   </Form.Group>
 
                   <Form.Group className="mt-3">
                     <Button variant="primary" type="submit">
-                      Add Department
+                      Update Department
                     </Button>
                   </Form.Group>
                 </Form>
