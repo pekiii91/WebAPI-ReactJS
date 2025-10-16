@@ -42,7 +42,7 @@ export class Employee extends Component {
   }
 
   render() {
-    const {empid, empname} = this.state;
+    const {empid, empname, dempt, emailid, doj} = this.state;
     let addModalClose = () => this.setState({addModalShow: false});
     let editModalClose = () => this.setState({editModalShow: false});
     return (
@@ -77,7 +77,10 @@ export class Employee extends Component {
                           this.setState({
                             editModalShow: true,
                             empid: emp.EmployeeID,
-                            empname: emp.EmployeeName
+                            empname: emp.EmployeeName,
+                            depmt: emp.Department,
+                            emailid: emp.EmailID,
+                            doj: emp.DateOfJoin
                           })
                         }>
                         Edit
@@ -95,6 +98,9 @@ export class Employee extends Component {
                         onHide={editModalClose}
                         empid={empid}
                         empname={empname}
+                        depmt={dempt}
+                        emailid={emailid}
+                        doj={doj}
                       />
                     </div>
                   </td>

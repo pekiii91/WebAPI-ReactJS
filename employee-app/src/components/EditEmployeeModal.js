@@ -10,6 +10,15 @@ export class EditEmployeeModal extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  //component data mount method for department
+  componentDidMount() {
+    fetch('https://localhost:44370/api/department')
+      .then(response => response.json())
+      .then(data => {
+        this.setState({deps: data});
+      });
+  }
+
   //function for closing the snackbar
   snackbarClose = event => {
     this.setState({snackbaropen: false});
@@ -70,7 +79,6 @@ export class EditEmployeeModal extends Component {
                     <Form.Control
                       type="text"
                       name="EmployeeID"
-                      required
                       disabled
                       defaultValue={this.props.empid}
                       placeholder="EmployeeID"
@@ -89,18 +97,19 @@ export class EditEmployeeModal extends Component {
                   <Form.Group className="mt-3" controlId="Department">
                     <Form.Label>Department</Form.Label>
                     <Form.Control
-                      type="text"
-                      name="Department"
-                      required
-                      defaultValue={this.props.depname}
-                      placeholder="Department"
-                    />
+                      as="select"
+                      defaultValue={this.props.depmt}
+                      placeholder="Department">
+                      {(this.state.deps || []).map(dep => (
+                        <option key={dep.DepartmentID}>{dep.DepartmentName}</option>
+                      ))}
+                    </Form.Control>
                   </Form.Group>
 
                   <Form.Group className="mt-3" controlId="EmailID">
                     <Form.Label>EmailID</Form.Label>
                     <Form.Control
-                      type="email"
+                      type="text"
                       name="EmailID"
                       required
                       defaultValue={this.props.emailid}

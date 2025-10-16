@@ -97,12 +97,21 @@ export class AddEmployeeModal extends Component {
 
                   <Form.Group controlId="EmailID" className="mt-3">
                     <Form.Label>EmailID</Form.Label>
-                    <Form.Control type="text" name="EmailID" required placeholder="EmailID" />
+                    <Form.Control
+                      type="text"
+                      name="EmailID"
+                      required
+                      placeholder="EmailID"
+                      defaultValue={this.props.emailid}
+                    />
                   </Form.Group>
 
                   <Form.Group controlId="DateOfJoin" className="mt-3">
                     <Form.Label>DateOfJoin</Form.Label>
-                    <Form.Control type="date" name="DateOfJoin" required placeholder="DateOfJoin" />
+                    <Form.Control type="date" name="DateOfJoin" 
+                    required 
+                    defaultValue={this.props.}
+                    placeholder="DateOfJoin" />
                   </Form.Group>
 
                   <Form.Group className="mt-3">
