@@ -6,8 +6,17 @@ import {IconButton} from '@mui/material';
 export class AddEmployeeModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {snackbaropen: false, snackbarmsg: ''};
+    this.state = {deps: [], snackbaropen: false, snackbarmsg: ''};
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  //component data mount method for department
+  componentDidMount() {
+    fetch('https://localhost:44370/api/department')
+      .then(response => response.json())
+      .then(data => {
+        this.setState({deps: data});
+      });
   }
 
   //function for closing the snackbar
@@ -24,6 +33,7 @@ export class AddEmployeeModal extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        EmployeeID: null,
         EmployeeName: event.target.EmployeeName.value,
         Department: event.target.Department.value,
         EmailID: event.target.EmailID.value,
@@ -33,11 +43,9 @@ export class AddEmployeeModal extends Component {
       .then(res => res.json())
       .then(
         result => {
-          //alert(result);
           this.setState({snackbaropen: true, snackbarmsg: result});
         },
         error => {
-          //alert('Failed in adding employee');
           this.setState({snackbaropen: true, snackbarmsg: 'Failed in adding employee'});
         }
       );
@@ -80,17 +88,21 @@ export class AddEmployeeModal extends Component {
 
                   <Form.Group controlId="Department" className="mt-3">
                     <Form.Label>Department</Form.Label>
-                    <Form.Control type="text" name="Department" required placeholder="Department" />
+                    <Form.Control as="select">
+                      {this.state.deps.map(dep => (
+                        <option key={dep.DepartmentID}>{dep.DepartmentName}</option>
+                      ))}
+                    </Form.Control>
                   </Form.Group>
 
                   <Form.Group controlId="EmailID" className="mt-3">
                     <Form.Label>EmailID</Form.Label>
-                    <Form.Control type="email" name="EmailID" required placeholder="EmailID" />
+                    <Form.Control type="text" name="EmailID" required placeholder="EmailID" />
                   </Form.Group>
 
                   <Form.Group controlId="DateOfJoin" className="mt-3">
                     <Form.Label>DateOfJoin</Form.Label>
-                    <Form.Control type="date" name="DateOfJoin" required />
+                    <Form.Control type="date" name="DateOfJoin" required placeholder="DateOfJoin" />
                   </Form.Group>
 
                   <Form.Group className="mt-3">
